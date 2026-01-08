@@ -1,0 +1,13 @@
+server:
+  port: 4567
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/travel_planner
+    username: postgres
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
