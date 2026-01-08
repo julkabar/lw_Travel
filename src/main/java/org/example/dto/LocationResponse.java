@@ -1,6 +1,7 @@
 package org.example.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -32,6 +33,9 @@ public class LocationResponse {
     @JsonProperty("travel_plan_id")
     private UUID travelPlanId;
 
+    @JsonProperty("version")
+    private Integer version;
+
     public LocationResponse(
             UUID id,
             String name,
@@ -44,7 +48,8 @@ public class LocationResponse {
             BigDecimal budget,
             String notes,
             Instant createdAt,
-            UUID travelPlanId
+            UUID travelPlanId,
+            Integer version
     ) {
         this.id = id;
         this.name = name;

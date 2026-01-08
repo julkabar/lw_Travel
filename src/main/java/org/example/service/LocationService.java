@@ -1,7 +1,9 @@
 package org.example.service;
 
+import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import org.example.dto.LocationResponse;
+import org.example.exception.ConflictException;
 import org.springframework.stereotype.Service;
 import org.example.dto.LocationCreateRequest;
 import org.example.dto.LocationUpdateRequest;
@@ -56,6 +58,13 @@ public class LocationService {
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Location not found"));
 
+        if (!location.getVersion().equals(request.getVersion())) {
+            throw new ConflictException(
+                    "Conflict: Location was modified by another request",
+                    location.getVersion()
+            );
+        }
+
         if (request.getName() != null) {
             location.setName(request.getName());
         }
@@ -81,7 +90,15 @@ public class LocationService {
             location.setNotes(request.getNotes());
         }
 
-        return toResponse(location);
+        try {
+            Location saved = locationRepository.saveAndFlush(location);
+            return toResponse(saved);
+        } catch (OptimisticLockException e) {
+            throw new ConflictException(
+                    "Conflict: Location update conflict",
+                    location.getVersion()
+            );
+        }
     }
 
     // ================= DELETE =================
@@ -107,7 +124,8 @@ public class LocationService {
                 loc.getBudget(),
                 loc.getNotes(),
                 loc.getCreatedAt(),
-                loc.getTravelPlan().getId()
+                loc.getTravelPlan().getId(),
+                loc.getVersion()
         );
     }
 }

@@ -48,6 +48,10 @@ public class Location {
     @Column(name = "notes", columnDefinition = "text")
     private String notes;
 
+    @Version
+    @Column(name = "version", nullable = false)
+    private Integer version = 1;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -77,4 +81,6 @@ public class Location {
     public void setVisitOrder(Integer visitOrder) { this.visitOrder = visitOrder; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+    public Integer getVersion() { return version; }
+    public void setVersion(Integer version) { this.version = version; }
 }

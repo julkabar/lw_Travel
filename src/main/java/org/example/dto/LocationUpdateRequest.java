@@ -33,6 +33,10 @@ public class LocationUpdateRequest {
 
     private String notes;
 
+    @NotNull
+    @Positive
+    private Integer version;
+
     @AssertTrue(message = "departure_date must be after or equal to arrival_date")
     private boolean isDateRangeValid() {
         if (arrivalDate == null || departureDate == null) return true;
@@ -47,4 +51,5 @@ public class LocationUpdateRequest {
     public OffsetDateTime getDepartureDate() { return departureDate; }
     public BigDecimal getBudget() { return budget; }
     public String getNotes() { return notes; }
+    public Integer getVersion() { return version; }
 }

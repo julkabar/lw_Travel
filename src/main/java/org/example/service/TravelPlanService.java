@@ -159,7 +159,8 @@ public class TravelPlanService {
                 location.getBudget(),
                 location.getNotes(),
                 location.getCreatedAt(),
-                location.getTravelPlan().getId()
+                location.getTravelPlan().getId(),
+                location.getVersion()
         );
     }
 }
